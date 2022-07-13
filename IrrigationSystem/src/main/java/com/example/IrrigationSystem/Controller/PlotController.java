@@ -2,7 +2,6 @@ package com.example.IrrigationSystem.Controller;
 
 import com.example.IrrigationSystem.Request.AddPlotRequest;
 import com.example.IrrigationSystem.Request.ConfigurePlotRequest;
-import com.example.IrrigationSystem.Response.ConfigurePlotResponse;
 import com.example.IrrigationSystem.Service.PlotService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
