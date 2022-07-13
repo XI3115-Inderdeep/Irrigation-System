@@ -48,7 +48,7 @@ public class SensorScheduler {
             if(LocalDateTime.now().isAfter(nextDueRun) && "201 CREATED".equals(hitSensorForIrrigation(plotDetail))){
                 logger.info("Updating next RUN for Plot {}", plotDetail.getPlotId());
                 Optional<CropDetails> cropDetails = cropRepository.findByCropName(plotDetail.getCropName());
-                plotDetail.setNextDueRun(LocalDateTime.now().plusMinutes(cropDetails.get().getTimeInterval()));
+                plotDetail.setNextDueRun(LocalDateTime.now().plusHours(cropDetails.get().getTimeInterval()));
                 plotRepository.save(plotDetail);
             }
         }

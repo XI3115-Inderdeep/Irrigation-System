@@ -136,7 +136,7 @@ public class PlotService {
         plot.setCropName(cropName.toLowerCase());
         plot.setWaterAmount(waterRequiredInPlot);
         plot.setTimeSlot(intervalHours);
-        plot.setNextDueRun(LocalDateTime.now().plusMinutes(intervalHours));
+        plot.setNextDueRun(LocalDateTime.now().plusHours(intervalHours));
 
         plotRepository.save(plot);
 
