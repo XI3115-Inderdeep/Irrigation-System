@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -60,15 +61,15 @@ public class PlotService {
         Optional<PlotDetails> plot = plotRepository.findByPlotId(plotId);
         if (!plot.isPresent()) {
             throw new Exception("Plot is not present. Enter valid plot id to configure.");
-        }else if(!Arrays.asList(validCropName.split(",")).contains(configurePlotRequest.getCropName().toLowerCase())){
+        } else if (!Arrays.asList(validCropName.split(",")).contains(configurePlotRequest.getCropName().toLowerCase())) {
             throw new Exception("Invalid Crop Name. Plot cannot be configured");
         }
 
-        int areaOfPlotConfigured = plot.get().getLengthOfPlot()*plot.get().getWidthOfPlot();
+        int areaOfPlotConfigured = plot.get().getLengthOfPlot() * plot.get().getWidthOfPlot();
         int waterRequiredInPlot = areaOfPlotConfigured * configurePlotRequest.getWaterNeededPerMeter();
 
         saveCropDetails(configurePlotRequest);
-        updatePlotDetails(plot.get(),configurePlotRequest.getIntervalHours(),waterRequiredInPlot,configurePlotRequest.getCropName());
+        updatePlotDetails(plot.get(), configurePlotRequest.getIntervalHours(), waterRequiredInPlot, configurePlotRequest.getCropName());
 
         ConfigurePlotResponse configurePlotResponse = new ConfigurePlotResponse();
         configurePlotResponse.setPlotId(plotId);
@@ -85,18 +86,21 @@ public class PlotService {
         logger.info("PlotService.editPlot Starts");
         Optional<PlotDetails> plot = plotRepository.findByPlotId(plotId);
 
-        if(!plot.isPresent()){
+        if (!plot.isPresent()) {
             throw new Exception("Invalid Plot Id is passed. Plot cannot be updated.");
         }
 
         PlotDetails plotDetails = plot.get();
         plotDetails.setLengthOfPlot(length);
         plotDetails.setWidthOfPlot(width);
-        if(!plotDetails.getCropName().isEmpty()){
+
+        if (!plotDetails.getCropName().isEmpty()) {
             Optional<CropDetails> crop = cropRepository.findByCropName(plotDetails.getCropName());
-            plotDetails.setWaterAmount(length*width*crop.get().getWaterPerMeter());
+            plotDetails.setWaterAmount(length * width * crop.get().getWaterPerMeter());
         }
+
         plotRepository.save(plotDetails);
+
         logger.info("PlotService.editPlot Ends");
 
         return "Plot is successfully updated";
@@ -132,6 +136,7 @@ public class PlotService {
         plot.setCropName(cropName.toLowerCase());
         plot.setWaterAmount(waterRequiredInPlot);
         plot.setTimeSlot(intervalHours);
+        plot.setNextDueRun(LocalDateTime.now().plusMinutes(intervalHours));
 
         plotRepository.save(plot);
 

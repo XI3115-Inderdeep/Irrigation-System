@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -23,4 +24,6 @@ public class PlotDetails {
         private int timeSlot;
         @Column(name="water_amount")
         private int waterAmount;
+        @Column(name="next_due_run")
+        private LocalDateTime nextDueRun;
 }
