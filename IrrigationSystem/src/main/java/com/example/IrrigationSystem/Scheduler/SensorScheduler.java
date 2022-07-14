@@ -37,7 +37,8 @@ public class SensorScheduler {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Scheduled(cron = "0 32 2 * * *")
+    @Scheduled(cron = "0 8 3 * * *")
+    //@Scheduled(cron = "* */2 * * * *")
     public void runSensorScheduler() throws Exception {
 
         logger.info("runSensorScheduler Starts");
@@ -66,7 +67,6 @@ public class SensorScheduler {
         ResponseEntity<String> sensorResponse;
         while(true) {
             try {
-
                 sensorRequest = objectMapper.writeValueAsString("sensorRequest");
                 sensorResponse = restTemplate.postForEntity(sensorURL, sensorRequest, String.class);
                 logger.info(String.valueOf(sensorResponse.getStatusCode()));

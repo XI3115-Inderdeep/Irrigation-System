@@ -35,7 +35,7 @@ public class PlotController {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(plotService.configure(plotId,configurePlotRequest));
         } catch (Exception e) {
-            logger.info("Exception Caught in PlotController.configure()  " + e);
+            logger.error("Exception Caught in PlotController.configure()  " + e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
@@ -45,7 +45,7 @@ public class PlotController {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(plotService.editPlot(plotId,length,width));
         } catch (Exception e) {
-            logger.info("Exception Caught in PlotController.editPlot()  " + e);
+            logger.error("Exception Caught in PlotController.editPlot()  " + e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
@@ -55,7 +55,7 @@ public class PlotController {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(plotService.list());
         } catch (Exception e) {
-            logger.info("Exception Caught in PlotController.addPlot()  " + e);
+            logger.error("Exception Caught in PlotController.list()  " + e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }

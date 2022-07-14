@@ -56,7 +56,7 @@ public class PlotService {
 
     public ConfigurePlotResponse configure(int plotId, ConfigurePlotRequest configurePlotRequest) throws Exception {
 
-        logger.info("PlotService.configure Starts");
+        logger.info("PlotService.configure Starts {}",plotId);
 
         Optional<PlotDetails> plot = plotRepository.findByPlotId(plotId);
         if (!plot.isPresent()) {
