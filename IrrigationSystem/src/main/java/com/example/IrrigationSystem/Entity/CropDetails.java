@@ -3,7 +3,10 @@ package com.example.IrrigationSystem.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Getter
 @Setter
@@ -11,10 +14,10 @@ import javax.persistence.*;
 @Table(name = "crop_details")
 public class CropDetails {
     @Id
-    @Column(name="crop_name")
+    @Column(name = "crop_name")
     private String cropName;
-    @Column(name="time_interval")
+    @Column(name = "time_interval")
     private int timeInterval;
-    @Column(name="water_per_meter")
+    @Column(name = "water_per_meter")
     private int waterPerMeter;
 }

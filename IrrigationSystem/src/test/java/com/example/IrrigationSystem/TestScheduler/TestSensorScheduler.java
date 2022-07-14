@@ -4,17 +4,13 @@ import com.example.IrrigationSystem.Entity.CropDetails;
 import com.example.IrrigationSystem.Entity.PlotDetails;
 import com.example.IrrigationSystem.Repository.CropRepository;
 import com.example.IrrigationSystem.Repository.PlotRepository;
-import com.example.IrrigationSystem.Request.AddPlotRequest;
 import com.example.IrrigationSystem.Scheduler.SensorScheduler;
-import com.example.IrrigationSystem.Service.PlotService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -23,9 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.lenient;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -67,7 +61,7 @@ public class TestSensorScheduler {
 
         when(plotRepository.findByNextDueRunNotNull()).thenReturn(plotDetailsList);
         when(cropRepository.findByCropName(anyString())).thenReturn(Optional.of(cropDetails));
-        ResponseEntity<String> r=ResponseEntity.created(null).build();
+        ResponseEntity<String> r = ResponseEntity.created(null).build();
         when(restTemplate.postForEntity("http://localhost:8866/sensor", null, String.class)).thenReturn(r);
         sensorScheduler.runSensorScheduler();
 

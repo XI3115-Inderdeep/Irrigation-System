@@ -9,7 +9,6 @@ import com.example.IrrigationSystem.Request.ConfigurePlotRequest;
 import com.example.IrrigationSystem.Response.ConfigurePlotResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +28,7 @@ public class PlotService {
 
     private final String validCropName;
 
-    public PlotService(@Value("${valid.crop.name}") String validCropName,CropRepository cropRepository,
+    public PlotService(@Value("${valid.crop.name}") String validCropName, CropRepository cropRepository,
                        PlotRepository plotRepository) {
         this.plotRepository = plotRepository;
         this.validCropName = validCropName;
@@ -60,7 +59,7 @@ public class PlotService {
 
     public ConfigurePlotResponse configure(int plotId, ConfigurePlotRequest configurePlotRequest) throws Exception {
 
-        logger.info("PlotService.configure Starts {}",plotId);
+        logger.info("PlotService.configure Starts {}", plotId);
 
         Optional<PlotDetails> plot = plotRepository.findByPlotId(plotId);
         if (!plot.isPresent()) {

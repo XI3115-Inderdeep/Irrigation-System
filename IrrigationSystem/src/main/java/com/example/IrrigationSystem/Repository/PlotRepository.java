@@ -11,5 +11,6 @@ import java.util.Optional;
 public interface PlotRepository extends JpaRepository<PlotDetails, Long> {
 
     Optional<PlotDetails> findByPlotId(int id);
+
     List<PlotDetails> findByNextDueRunNotNull();
 }

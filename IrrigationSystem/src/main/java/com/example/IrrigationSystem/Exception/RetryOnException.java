@@ -8,35 +8,29 @@ public class RetryOnException {
     private long timeToWaitMS;
 
     public RetryOnException(int _numRetries,
-                            long _timeToWaitMS)
-    {
+                            long _timeToWaitMS) {
         numRetries = _numRetries;
         timeToWaitMS = _timeToWaitMS;
     }
 
-    public RetryOnException()
-    {
+    public RetryOnException() {
         this(DEFAULT_RETRIES, DEFAULT_TIME_TO_WAIT_MS);
     }
 
-    public boolean shouldRetry()
-    {
+    public boolean shouldRetry() {
         return (numRetries >= 0);
     }
 
-    public void waitUntilNextTry()
-    {
+    public void waitUntilNextTry() {
         try {
             Thread.sleep(timeToWaitMS);
+        } catch (InterruptedException iex) {
         }
-        catch (InterruptedException iex) { }
     }
 
-    public void exceptionOccurred() throws Exception
-    {
+    public void exceptionOccurred() throws Exception {
         numRetries--;
-        if(!shouldRetry())
-        {
+        if (!shouldRetry()) {
             throw new Exception("Retry limit exceeded. ALERTING SYSTEM");
         }
         waitUntilNextTry();

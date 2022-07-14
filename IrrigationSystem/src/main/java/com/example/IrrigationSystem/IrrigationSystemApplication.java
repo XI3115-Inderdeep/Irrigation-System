@@ -10,14 +10,14 @@ import org.springframework.web.client.RestTemplate;
 @EnableScheduling
 public class IrrigationSystemApplication {
 
-	@Bean
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
 
 
-	public static void main(String[] args) {
-		SpringApplication.run(IrrigationSystemApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(IrrigationSystemApplication.class, args);
+    }
 
 }

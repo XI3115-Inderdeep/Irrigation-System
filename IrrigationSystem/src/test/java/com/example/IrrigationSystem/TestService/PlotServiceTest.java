@@ -14,14 +14,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,8 +37,8 @@ public class PlotServiceTest {
 
     @BeforeEach
     public void setUp() {
-        plotService=new PlotService("wheat,rice,sugarcane,coffee,tea,pulses,spices"
-                ,cropRepository,plotRepository);
+        plotService = new PlotService("wheat,rice,sugarcane,coffee,tea,pulses,spices"
+                , cropRepository, plotRepository);
     }
 
 
@@ -79,7 +78,7 @@ public class PlotServiceTest {
         configurePlotRequest.setWaterNeededPerMeter(3);
         configurePlotRequest.setIntervalHours(2);
 
-        ConfigurePlotResponse response = plotService.configure(plotDetails.getPlotId(),configurePlotRequest);
+        ConfigurePlotResponse response = plotService.configure(plotDetails.getPlotId(), configurePlotRequest);
         assertThat(response).isNotNull();
     }
 
@@ -97,7 +96,7 @@ public class PlotServiceTest {
         when(plotRepository.findByPlotId(any(Integer.class))).thenReturn(Optional.of(plotDetails));
         when(cropRepository.findByCropName(anyString())).thenReturn(Optional.of(cropDetails));
 
-        String response = plotService.editPlot(22,20,30);
+        String response = plotService.editPlot(22, 20, 30);
         assertThat(response).isNotNull();
     }
 

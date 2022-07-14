@@ -44,9 +44,9 @@ public class SensorScheduler {
         logger.info("runSensorScheduler Starts");
 
         List<PlotDetails> plotDetails = plotRepository.findByNextDueRunNotNull();
-        for(PlotDetails plotDetail : plotDetails){
+        for (PlotDetails plotDetail : plotDetails) {
             LocalDateTime nextDueRun = plotDetail.getNextDueRun();
-            if(LocalDateTime.now().isAfter(nextDueRun) && "201 CREATED".equals(hitSensorForIrrigation(plotDetail))){
+            if (LocalDateTime.now().isAfter(nextDueRun) && "201 CREATED".equals(hitSensorForIrrigation(plotDetail))) {
                 logger.info("Updating next RUN for Plot {}", plotDetail.getPlotId());
                 Optional<CropDetails> cropDetails = cropRepository.findByCropName(plotDetail.getCropName());
                 plotDetail.setNextDueRun(LocalDateTime.now().plusHours(cropDetails.get().getTimeInterval()));
@@ -65,7 +65,7 @@ public class SensorScheduler {
         RetryOnException retryHandler = new RetryOnException(3, 10000);
         String sensorRequest = null;
         ResponseEntity<String> sensorResponse;
-        while(true) {
+        while (true) {
             try {
                 sensorRequest = objectMapper.writeValueAsString("sensorRequest");
                 sensorResponse = restTemplate.postForEntity(sensorURL, sensorRequest, String.class);

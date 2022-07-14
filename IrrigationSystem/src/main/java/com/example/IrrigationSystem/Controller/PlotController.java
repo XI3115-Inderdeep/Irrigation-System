@@ -30,10 +30,11 @@ public class PlotController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
     @PostMapping("/configure/{plotId}")
     public ResponseEntity configure(@PathVariable int plotId, @Valid @RequestBody ConfigurePlotRequest configurePlotRequest) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(plotService.configure(plotId,configurePlotRequest));
+            return ResponseEntity.status(HttpStatus.OK).body(plotService.configure(plotId, configurePlotRequest));
         } catch (Exception e) {
             logger.error("Exception Caught in PlotController.configure()  " + e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -41,9 +42,9 @@ public class PlotController {
     }
 
     @PutMapping("/edit/{plotId}/{length}/{width}")
-    public ResponseEntity editPlot(@PathVariable int plotId,@PathVariable int length, @PathVariable int width) {
+    public ResponseEntity editPlot(@PathVariable int plotId, @PathVariable int length, @PathVariable int width) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(plotService.editPlot(plotId,length,width));
+            return ResponseEntity.status(HttpStatus.OK).body(plotService.editPlot(plotId, length, width));
         } catch (Exception e) {
             logger.error("Exception Caught in PlotController.editPlot()  " + e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

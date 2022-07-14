@@ -72,7 +72,7 @@ public class PlotControllerTest {
         plotDetails.setLengthOfPlot(11);
         plotDetails.setWidthOfPlot(33);
 
-        when(plotService.configure(3,configurePlotRequest)).thenReturn(new ConfigurePlotResponse());
+        when(plotService.configure(3, configurePlotRequest)).thenReturn(new ConfigurePlotResponse());
         when(plotRepository.findByPlotId(any(Integer.class))).thenReturn(Optional.of(plotDetails));
 
         this.mockMvc.perform(post("/plot/configure/1")
