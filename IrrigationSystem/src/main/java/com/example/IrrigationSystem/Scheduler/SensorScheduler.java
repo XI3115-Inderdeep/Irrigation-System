@@ -37,8 +37,8 @@ public class SensorScheduler {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Scheduled(cron = "0 8 3 * * *")
-    //@Scheduled(cron = "* */2 * * * *")
+    //@Scheduled(cron = "0 8 3 * * *")
+    @Scheduled(cron = "0 0/10 * * * *")
     public void runSensorScheduler() throws Exception {
 
         logger.info("runSensorScheduler Starts");
@@ -69,7 +69,6 @@ public class SensorScheduler {
             try {
                 sensorRequest = objectMapper.writeValueAsString("sensorRequest");
                 sensorResponse = restTemplate.postForEntity(sensorURL, sensorRequest, String.class);
-                logger.info(String.valueOf(sensorResponse.getStatusCode()));
                 break;
             } catch (JsonProcessingException je) {
                 retryHandler.exceptionOccurred();

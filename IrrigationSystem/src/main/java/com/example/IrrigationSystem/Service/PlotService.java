@@ -23,14 +23,18 @@ public class PlotService {
 
     private Logger logger = LoggerFactory.getLogger(PlotService.class);
 
-    @Autowired
-    PlotRepository plotRepository;
+    private final PlotRepository plotRepository;
 
-    @Autowired
-    CropRepository cropRepository;
+    private final CropRepository cropRepository;
 
-    @Value("${valid.crop.name}")
-    private String validCropName;
+    private final String validCropName;
+
+    public PlotService(@Value("${valid.crop.name}") String validCropName,CropRepository cropRepository,
+                       PlotRepository plotRepository) {
+        this.plotRepository = plotRepository;
+        this.validCropName = validCropName;
+        this.cropRepository = cropRepository;
+    }
 
     public String addPlot(AddPlotRequest addPlotRequest) throws Exception {
 

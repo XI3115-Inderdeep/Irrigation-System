@@ -1,5 +1,6 @@
-package com.example.IrrigationSystem.Controller;
+package com.example.IrrigationSystem.TestService;
 
+import com.example.IrrigationSystem.Entity.CropDetails;
 import com.example.IrrigationSystem.Entity.PlotDetails;
 import com.example.IrrigationSystem.Repository.CropRepository;
 import com.example.IrrigationSystem.Repository.PlotRepository;
@@ -7,6 +8,7 @@ import com.example.IrrigationSystem.Request.AddPlotRequest;
 import com.example.IrrigationSystem.Request.ConfigurePlotRequest;
 import com.example.IrrigationSystem.Response.ConfigurePlotResponse;
 import com.example.IrrigationSystem.Service.PlotService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,6 +17,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+import java.util.Optional;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
@@ -22,16 +27,21 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class PlotServiceTest {
 
-    private Logger logger = LoggerFactory.getLogger(PlotServiceTest.class);
-
     @InjectMocks
-    PlotService plotService;
+    private PlotService plotService;
 
     @Mock
-    PlotRepository plotRepository;
+    private PlotRepository plotRepository;
 
     @Mock
-    CropRepository cropRepository;
+    private CropRepository cropRepository;
+
+    @BeforeEach
+    public void setUp() {
+        plotService=new PlotService("wheat,rice,sugarcane,coffee,tea,pulses,spices"
+                ,cropRepository,plotRepository);
+    }
+
 
     @Test
     void add_plot_test() throws Exception {
@@ -51,8 +61,6 @@ public class PlotServiceTest {
         String response = plotService.addPlot(addPlotRequest);
         assertThat(response).isNotNull();
         assertThat(plotDetails).isNotNull();
-        logger.info(response);
-        logger.info("Crop Data is Updated in DB {}, {} and {}",plotDetails.getPlotId(),plotDetails.getLengthOfPlot(),plotDetails.getWidthOfPlot());
     }
 
     @Test
@@ -64,14 +72,39 @@ public class PlotServiceTest {
         plotDetails.setWidthOfPlot(33);
 
         when(plotRepository.save(any(PlotDetails.class))).thenReturn(plotDetails);
-        plotRepository.save(plotDetails);
+        when(plotRepository.findByPlotId(any(Integer.class))).thenReturn(Optional.of(plotDetails));
 
         ConfigurePlotRequest configurePlotRequest = new ConfigurePlotRequest();
-        configurePlotRequest.setCropName("ROCE");
+        configurePlotRequest.setCropName("RICE");
         configurePlotRequest.setWaterNeededPerMeter(3);
         configurePlotRequest.setIntervalHours(2);
 
         ConfigurePlotResponse response = plotService.configure(plotDetails.getPlotId(),configurePlotRequest);
+        assertThat(response).isNotNull();
+    }
+
+    @Test
+    void edit_plot_test() throws Exception {
+
+        PlotDetails plotDetails = new PlotDetails();
+        plotDetails.setCropName("pulses");
+
+        CropDetails cropDetails = new CropDetails();
+        cropDetails.setCropName("tea");
+        cropDetails.setTimeInterval(5);
+        cropDetails.setWaterPerMeter(2);
+
+        when(plotRepository.findByPlotId(any(Integer.class))).thenReturn(Optional.of(plotDetails));
+        when(cropRepository.findByCropName(anyString())).thenReturn(Optional.of(cropDetails));
+
+        String response = plotService.editPlot(22,20,30);
+        assertThat(response).isNotNull();
+    }
+
+    @Test
+    void list_plot_test() throws Exception {
+
+        List<PlotDetails> response = plotService.list();
         assertThat(response).isNotNull();
     }
 
